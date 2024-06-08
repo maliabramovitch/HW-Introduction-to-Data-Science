@@ -2,7 +2,8 @@ import pandas as pd
 
 """ 1. Contest data """
 # A
-data_csv = pd.read_csv("contestants.csv", header=0, index_col=['to_country_id'])
+data_csv = pd.read_csv("contestants.csv", header=0)
+data_csv.set_index('to_country_id', drop=False)
 comp_num = data_csv.groupby('to_country_id')['place_final'].count()
 place_median = data_csv.groupby('to_country_id')['place_final'].median()
 num_first = data_csv[data_csv['place_final'] == 1].groupby('to_country_id')['place_final'].count()
@@ -24,5 +25,14 @@ print(
 israel_placing = data_csv[data_csv['to_country'] == 'Israel']['place_final'].value_counts().sort_values(ascending=False)
 print(f"Israel placing: \n{israel_placing}")
 
-""" Creating dictionary to convert Country's name from short to long """
+
+""" 2. Creating dictionary to convert Country's name from short to long """
+codeToCountry = data_csv[['to_country_id', 'to_country']]
+codeToCountry = codeToCountry.drop_duplicates(keep='first', ignore_index=True)
+codes = codeToCountry['to_country_id'].to_frame()
+names = codeToCountry['to_country'].to_frame()
+
+code_to_country = {}
+for key, value in zip(codes.values, names.values):
+    code_to_country[key[0]] = value[0]
 
