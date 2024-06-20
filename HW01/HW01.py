@@ -54,12 +54,7 @@ votes.drop(index=drop_index_to, inplace=True)
 drop_index_from = votes.loc[votes['from_country_id'].apply(lambda x: x not in comp_over_30)].index
 votes.drop(index=drop_index_from, inplace=True)
 votes = votes[~((votes['jury_points'].isna()) & (votes['year'] > 1996))]
-for row in votes.iterrows():
-    if row[1]['year'] > 1996 and pd.notna(row[1]['jury_points']):
-        row[1]['total_points'] = row[1]['jury_points']
-votes.rename(columns={'from_country_id': 'from', 'to_country_id': 'to', 'total_points': 'points'}, inplace=True)
-votes.drop(columns=[x for x in votes.columns if x not in ['year', 'from', 'to', 'points']], inplace=True)
-
+votes.loc[votes['year'] > 1996, 'total_points'] = votes.loc[votes['year'] > 1996, 'jury_points']
 # mean
 mean_points = votes.groupby(['year', 'to'])['points'].mean().reset_index()
 mean_points.rename(columns={'to': 'country', 'points': 'mean'}, inplace=True)
