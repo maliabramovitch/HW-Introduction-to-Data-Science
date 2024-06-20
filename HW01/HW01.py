@@ -4,9 +4,7 @@ import matplotlib.pyplot as plt
 
 """ 1. Contest data """
 # A
-data_csv = pd.read_csv(
-    "C:\\Users\\malia\\Degree\\Semester f\\Introduction to data science\\HW-Introduction to Data Science\\HW01\\contestants.csv",
-    header=0)
+data_csv = pd.read_csv("contestants.csv", header=0)
 data_csv.set_index('to_country_id', drop=False)
 comp_num = data_csv.groupby('to_country_id')['year'].count()
 place_median = data_csv.groupby('to_country_id')['place_final'].median()
@@ -45,9 +43,7 @@ code_to_country['ad'] = 'Audience'
 code_to_country['wld'] = 'World'
 
 """ 3. Analysis of the politicization of the Eurovision """
-votes = pd.read_csv(
-    "C:\\Users\\malia\\Degree\\Semester f\\Introduction to data science\\HW-Introduction to Data Science\\HW01\\votes.csv",
-    header=0)
+votes = pd.read_csv("votes.csv", header=0)
 votes.drop(votes[votes['round'] != 'final'].index, inplace=True)
 votes['from_country_id'] = votes['from_country_id'].apply(lambda x: code_to_country[x])
 votes['to_country_id'] = votes['to_country_id'].apply(lambda x: code_to_country[x])
@@ -88,7 +84,6 @@ plt.axvline(mean_value, color='r', linestyle='--')
 plt.text(mean_value, len(israel) / 2, f'Average: {mean_value:.2f}', color='r', va='center')
 plt.title("The voting percentage of other countries for Israel")
 plt.show()
-
 
 israel = from_to_above_average.loc['Israel'].drop('Israel').sort_values(ascending=False)
 sns.barplot(x=israel.values, y=israel.index, palette='coolwarm')
