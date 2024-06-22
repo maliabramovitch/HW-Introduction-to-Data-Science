@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 """ 1. Contest data """
 # A
-data_csv = pd.read_csv("contestants.csv", header=0)
+data_csv = pd.read_csv("C:contestants.csv", header=0)
 data_csv.set_index('to_country_id', drop=False)
 comp_num = data_csv.groupby('to_country_id')['year'].count()
 place_median = data_csv.groupby('to_country_id')['place_final'].median()
@@ -43,7 +43,9 @@ code_to_country['ad'] = 'Audience'
 code_to_country['wld'] = 'World'
 
 """ 3. Analysis of the politicization of the Eurovision """
-votes = pd.read_csv("votes.csv", header=0)
+votes = pd.read_csv(
+    "C:votes.csv",
+    header=0)
 votes.drop(votes[votes['round'] != 'final'].index, inplace=True)
 votes['from_country_id'] = votes['from_country_id'].apply(lambda x: code_to_country[x])
 votes['to_country_id'] = votes['to_country_id'].apply(lambda x: code_to_country[x])
@@ -55,15 +57,18 @@ drop_index_from = votes.loc[votes['from_country_id'].apply(lambda x: x not in co
 votes.drop(index=drop_index_from, inplace=True)
 votes = votes[~((votes['jury_points'].isna()) & (votes['year'] > 1996))]
 votes.loc[votes['year'] > 1996, 'total_points'] = votes.loc[votes['year'] > 1996, 'jury_points']
+votes.rename(columns={'from_country_id': 'from', 'to_country_id': 'to', 'total_points': 'points'}, inplace=True)
+votes.drop(columns=[x for x in votes.columns if x not in ['year', 'from', 'to', 'points']], inplace=True)
+
 # mean
 mean_points = votes.groupby(['year', 'to'])['points'].mean().reset_index()
-mean_points.rename(columns={'to': 'country', 'points': 'mean'}, inplace=True)
+mean_points.rename(columns={'to': 'country', 'points': 'mean_points'}, inplace=True)
 mean_points['year.country'] = mean_points['year'].astype(str) + '.' + mean_points['country']
 mean_points.set_index('year.country', inplace=True)
 
 # norm
 votes = votes.merge(mean_points, left_on=['year', 'to'], right_on=['year', 'country'])
-votes['adjusted_points'] = votes['points'] - votes['mean']
+votes['adjusted_points'] = votes['points'] - votes['mean_points']
 votes['above_average'] = votes['adjusted_points'] > 0
 votes.loc[votes['from'] == votes['to'], 'above_average'] = True
 from_to_above_average = votes.groupby(['from', 'to'])['above_average'].mean().unstack(fill_value=0)
@@ -79,6 +84,7 @@ plt.axvline(mean_value, color='r', linestyle='--')
 plt.text(mean_value, len(israel) / 2, f'Average: {mean_value:.2f}', color='r', va='center')
 plt.title("The voting percentage of other countries for Israel")
 plt.show()
+
 
 israel = from_to_above_average.loc['Israel'].drop('Israel').sort_values(ascending=False)
 sns.barplot(x=israel.values, y=israel.index, palette='coolwarm')
