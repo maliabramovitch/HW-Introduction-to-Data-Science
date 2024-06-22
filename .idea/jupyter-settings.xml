@@ -5,19 +5,22 @@
       <list>
         <JupyterConnectionParameters>
           <option name="authType" value="notebook" />
-          <option name="token" value="f1b8522ef282a835db7d343f64ee2b1c50a32d44eed79c1a" />
+          <option name="token" value="e5a664d0af5246a244e101c78d5873df8e859d62f6533f24" />
           <option name="urlString" value="http://127.0.0.1:8888" />
           <authParams2>
             <map>
-              <entry key="token" value="f1b8522ef282a835db7d343f64ee2b1c50a32d44eed79c1a" />
+              <entry key="token" value="e5a664d0af5246a244e101c78d5873df8e859d62f6533f24" />
             </map>
           </authParams2>
         </JupyterConnectionParameters>
         <JupyterConnectionParameters>
           <option name="authType" value="notebook" />
+          <option name="token" value="e5a664d0af5246a244e101c78d5873df8e859d62f6533f24" />
           <option name="urlString" value="http://localhost:8888" />
           <authParams2>
-            <map />
+            <map>
+              <entry key="token" value="e5a664d0af5246a244e101c78d5873df8e859d62f6533f24" />
+            </map>
           </authParams2>
         </JupyterConnectionParameters>
       </list>
@@ -28,11 +31,11 @@
           <value>
             <JupyterConnectionParameters>
               <option name="authType" value="notebook" />
-              <option name="token" value="f1b8522ef282a835db7d343f64ee2b1c50a32d44eed79c1a" />
-              <option name="urlString" value="http://127.0.0.1:8888" />
+              <option name="token" value="e5a664d0af5246a244e101c78d5873df8e859d62f6533f24" />
+              <option name="urlString" value="http://localhost:8888" />
               <authParams2>
                 <map>
-                  <entry key="token" value="f1b8522ef282a835db7d343f64ee2b1c50a32d44eed79c1a" />
+                  <entry key="token" value="e5a664d0af5246a244e101c78d5873df8e859d62f6533f24" />
                 </map>
               </authParams2>
             </JupyterConnectionParameters>
