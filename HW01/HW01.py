@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 # A
 data_csv = pd.read_csv("C:contestants.csv", header=0)
 data_csv.set_index('to_country_id', drop=False)
-comp_num = data_csv.groupby('to_country_id')['year'].count()
+comp_num = data_csv.groupby('to_country_id')['place_final'].count()
 place_median = data_csv.groupby('to_country_id')['place_final'].median()
 num_first = data_csv[data_csv['place_final'] == 1].groupby('to_country_id')['place_final'].count()
 prec = num_first / comp_num * 100
@@ -74,7 +74,7 @@ votes.loc[votes['from'] == votes['to'], 'above_average'] = True
 from_to_above_average = votes.groupby(['from', 'to'])['above_average'].mean().unstack(fill_value=0)
 
 """ 4. Create a matrix of scoring countries(rows) to scoring countries (columns) """
-sns.clustermap(from_to_above_average, figsize=(6, 6))
+sns.clustermap(from_to_above_average, figsize=(6, 6), row_cluster=False, col_cluster=False, linewidths=.6, linecolor='black')
 plt.show()
 
 israel = from_to_above_average['Israel'].drop('Israel').sort_values(ascending=False)
