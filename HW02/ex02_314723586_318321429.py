@@ -212,7 +212,7 @@ p_values = model.pvalues
 print("\nCoefficients:\n", coefficients, sep='')
 print("\nP-values:\n", p_values, sep='')
 
-most_influential_param = coefficients.idxmax()
+most_influential_param = abs(coefficients).idxmax()
 print(f"\nMost influential parameter: {most_influential_param}")
 
 model_summary = model.summary()
